@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Classification</title>
+    <style>
+        body {
+            background-color: #1a1a1a; /* Dark background color */
+            color: #ffffff; /* White text color */
+            font-family: Arial, sans-serif; /* Font family */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #333333; /* Dark gray container background color */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+        }
+
+        h1 {
+            color: #b38cb6; /* Purple heading color */
+        }
+
+        p {
+            color: #ffffff; /* White text color */
+        }
+
+        input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+
+        .custom-file-input {
+            background-color: #663399; /* Purple button background color */
+            color: #ffffff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block; /* Display as inline block to retain the button shape */
+        }
+
+        .custom-file-input:hover {
+            background-color: #4b0082; /* Darker purple on hover */
+        }
+
+        #pdf-input {
+            display: none; /* Hide the default file input */
+        }
+
+        #pdf-label {
+            display: inline-block;
+            background-color: #663399; /* Purple button background color */
+            color: #ffffff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #pdf-label:hover {
+            background-color: #4b0082; /* Darker purple on hover */
+        }
+
+        #prediction-result,
+        #text-content {
+            margin-top: 20px;
+            color: #ffffff; /* White text color */
+        }
+
+        /* Scrollable text area */
+        #text-content {
+            height: 200px; /* Set a fixed height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #666; /* Add border for clarity */
+            padding: 10px; /* Add padding */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Classification</h1>
+        <p>Upload a PDF:</p>
+        <form id="pdf-form" method="POST" enctype="multipart/form-data">
+            <!-- Custom file input button -->
+            <label id="pdf-label" for="pdf-input">Choose File</label>
+            <input type="file" name="file" id="pdf-input" required>
+            <button type="submit" class="custom-file-input">Classify</button>
+        </form>
+        <div id="prediction-result"></div>
+        <div id="text-content"></div>
+    </div>
+
+    <script>
+        document.getElementById('pdf-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/uploader', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('prediction-result').innerText = `Predicted Category: ${data.predicted_category}`;
+                document.getElementById('text-content').innerText = `Text: ${data.text_content}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
