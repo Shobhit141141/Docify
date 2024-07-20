@@ -1,17 +1,16 @@
 from flask import Flask, request, jsonify, render_template
 import os
 from werkzeug.utils import secure_filename
-from functions.file_to_text import pdf_to_text  # Assuming this function is in functions/file_to_text.py
+from functions.file_to_text import pdf_to_text  
 import joblib
 
-# Load your pre-trained model (loading only once)
+
 MODEL_PATH = 'best_model.pkl'
 if os.path.exists(MODEL_PATH):
     model = joblib.load(MODEL_PATH)
 else:
     raise FileNotFoundError(f"Model file '{MODEL_PATH}' not found.")
 
-# Define the custom category order
 CUSTOM_CATEGORY_ORDER = {
     'Legal': 0,
     'Medical': 10,
@@ -49,19 +48,19 @@ def uploader():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
-        # Convert PDF to text
+
         text_content = pdf_to_text(filepath)
 
-        # Join the list of strings into a single string
+
         input_text = ' '.join(text_content)
 
-        # Make prediction
+
         predicted_label = model.predict([input_text])
         predicted_category = next(key for key, value in CUSTOM_CATEGORY_ORDER.items() if value == predicted_label[0])
 
         return jsonify({
             'predicted_category': predicted_category,
-            'text_content': input_text  # Return the joined text
+            'text_content': input_text 
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
