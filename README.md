@@ -2,9 +2,12 @@
 
 <p id="description">Docify classifies PDFs into ten categories: Legal Medical Finance Education Business News Technical Creative Scientific and Government. Utilizing sklearn PyTesseract and Naive Bayes it ensures precise efficient document organization and retrieval enhancing decision-making and workflow automation across various industries.</p>
 
-<h2>🚀 Demo</h2>
+## 🚀 Demo
 
-[https://docify-test.onrender.com](https://docify-test.onrender.com)
+
+- [on_render](https://docify-test.onrender.com)
+- [on_railway](https://docify.up.railway.app/)
+
 
 
   
