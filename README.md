@@ -1,4 +1,4 @@
-<h1 align="center" id="title">Docify</h1>
+<h1 align="center" id="title">🔍Docify</h1>
 
 <p id="description">Docify classifies PDFs into ten categories: Legal Medical Finance Education Business News Technical Creative Scientific and Government. Utilizing sklearn PyTesseract and Naive Bayes it ensures precise efficient document organization and retrieval enhancing decision-making and workflow automation across various industries.</p>
 
