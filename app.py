@@ -4,13 +4,14 @@ from werkzeug.utils import secure_filename
 from functions.file_to_text import pdf_to_text  
 import joblib
 
-
+# Load the model
 MODEL_PATH = 'best_model.pkl'
 if os.path.exists(MODEL_PATH):
     model = joblib.load(MODEL_PATH)
 else:
     raise FileNotFoundError(f"Model file '{MODEL_PATH}' not found.")
 
+# Custom category order for the model output labels
 CUSTOM_CATEGORY_ORDER = {
     'Legal': 0,
     'Medical': 10,
@@ -27,9 +28,11 @@ CUSTOM_CATEGORY_ORDER = {
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
+# Create upload folder if it does not exist
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
+# Route to index.html
 @app.route('/')
 def upload_file():
     return render_template('index.html')
@@ -65,5 +68,6 @@ def uploader():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Run the app  
 if __name__ == '__main__':
     app.run(debug=True)
